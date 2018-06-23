@@ -28,18 +28,54 @@ for j in givenNums:
 
 
 
-# print(len(numsArrGiven))
+
+# just used for logic checking 
+
+
+# for j in range(0, 9):
+# 	print(numsArr[j])
+
+
+# print("\n")	
+# for j in range(0, 9):
+# 	print(numsArrGiven[j])
+
 
 
 
 sudokuPuzzle = []
-for j in range(0, 9):
-	print(numsArr[j])
 
 
-print("\n")	
-for j in range(0, 9):
-	print(numsArrGiven[j])
+count = 0
+for j in range(0, 81):
+	if count > len(numsArrGiven) -1:
+		break
+	elif numsArr[j] == numsArrGiven[count]:
+		sudokuPuzzle.append(numsArr[j])
+		count += 1
+	else:
+		sudokuPuzzle.append(0)
+
+
+
+print(sudokuPuzzle)
+
+
+
+
+# below code checks to see that puzzle created successfully 
+
+# recreateArr = [] 
+# for i in range(0, len(sudokuPuzzle)):
+# 	if sudokuPuzzle[i] != 0:
+# 		recreateArr.append(sudokuPuzzle[i])
+
+
+# if recreateArr == numsArrGiven:
+# 	print("success")
+
+
+
 
 
 
