@@ -30,7 +30,7 @@ for j in givenNums:
 
 
 sudokuPuzzle = []
-
+finishedPuzzle = [] 
 
 count = 0
 for j in range(0, 81):
@@ -54,7 +54,7 @@ y = 0
 numObj = NumberClass()
 
 for i in range(0, 9):
-	numObj.genRows(sudokuPuzzle[y:x])
+	finishedPuzzle += numObj.genRows(sudokuPuzzle[y:x])
 	y = x 
 	x += 9
 
@@ -65,6 +65,13 @@ for i in range(0, 9):
 
 
 
+# finishedPuzzle = numObj.genBlock(finishedPuzzle, sudokuPuzzle)
+
+
+# print(finishedPuzzle[0:9])
+# print(finishedPuzzle[9:18])
+
+	
 
 
 
@@ -78,14 +85,14 @@ for i in range(0, 9):
 
 # below code checks to see that puzzle created successfully 
 
-# recreateArr = [] 
-# for i in range(0, len(sudokuPuzzle)):
-# 	if sudokuPuzzle[i] != 0:
-# 		recreateArr.append(sudokuPuzzle[i])
+recreateArr = [] 
+for i in range(0, len(sudokuPuzzle)):
+	if sudokuPuzzle[i] != 0:
+		recreateArr.append(sudokuPuzzle[i])
 
 
-# if recreateArr == numsArrGiven:
-# 	print("success")
+if recreateArr == numsArrGiven:
+	print("success")
 
 
 
