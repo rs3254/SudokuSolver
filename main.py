@@ -1,5 +1,6 @@
-from handleRequests import get_url
+from HandleRequests import get_url
 from bs4 import BeautifulSoup
+from NumberClass import NumberClass
 
 
 
@@ -28,21 +29,6 @@ for j in givenNums:
 
 
 
-
-# just used for logic checking 
-
-
-# for j in range(0, 9):
-# 	print(numsArr[j])
-
-
-# print("\n")	
-# for j in range(0, 9):
-# 	print(numsArrGiven[j])
-
-
-
-
 sudokuPuzzle = []
 
 
@@ -58,7 +44,34 @@ for j in range(0, 81):
 
 
 
-print(sudokuPuzzle)
+print(len(sudokuPuzzle))
+
+
+rowArr = [] 
+x = 9
+y = 0
+
+numObj = NumberClass()
+
+for i in range(0, 9):
+	numObj.genRows(sudokuPuzzle[y:x])
+	y = x 
+	x += 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
