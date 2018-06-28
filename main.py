@@ -48,6 +48,9 @@ from NumberClass import NumberClass
 
 
 
+
+
+# misnomer has array that will eventually be finishedPuzzle
 finishedPuzzle = [] 
 
 puzzleT = ['4', 0, '1', 0, 0, '3', '9', 0, '5', 0, 0, 0, '7', '1', '4', '8', '3', 0, 0, '7', '3', '9', 0, 0, '1', 0, '4', '7', '1', 0, '3', '2', 0, '5', '8', '9', '8', '3', '9', '5', 0, '7', 0, 0, '2', 0, '6', 0, 0, 0, '1', '3', 0, 0, 0, '2', '6', '4', '3', 0, '7', 0, '8', 0, '5', 0, '1', '7', '2', '4', '6', 0, 0, 0, 0, 0, 0, 0, '2', 0, '1']
@@ -75,12 +78,16 @@ for i in range(0, 9):
 
 
 
-finishedPuzzle = numObj.genBlock(finishedPuzzle, arrC)
+finishedPuzzle = numObj.createSudokuPlane(finishedPuzzle, arrC)
+
+i = 0
+while i <= 72:
+	print(finishedPuzzle[i:i+9])
+	i += 9
+
+	
 
 
-print(finishedPuzzle[0:9])
-print(finishedPuzzle[9:18])
-print(finishedPuzzle[18:27])
 
 
 
