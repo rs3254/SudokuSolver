@@ -80,6 +80,9 @@ for i in range(0, 9):
 
 finishedPuzzle = numObj.createSudokuPlane(finishedPuzzle, arrC)
 
+# print(finishedPuzzle)
+print("\n")
+
 i = 0
 while i <= 72:
 	print(finishedPuzzle[i:i+9])

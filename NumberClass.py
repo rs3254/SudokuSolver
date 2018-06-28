@@ -22,9 +22,25 @@ class NumberClass:
 		block1 = list(self.genBlock(arr, puzzle, 0))
 		block2 = list(self.genBlock(arr, puzzle, 27))
 
+		count = 0
+		totalCount = 0
 		while self.checkBlocks(block1, block2) == False:
-			block1 = list(self.genBlock(arr, puzzle, 0))
-			block2 = list(self.genBlock(arr, puzzle, 27))
+
+			block2 = self.genBlock(arr, puzzle, 27)
+			count += 1
+			if count> 500:
+				block1 = self.genBlock(arr, puzzle, 0)
+				block2 = self.genBlock(arr, puzzle, 27)
+				count = 0
+				totalCount += 1
+				
+
+			if totalCount > 1000:
+				print("not solved")
+				break
+			
+
+
 
 
 
@@ -34,7 +50,7 @@ class NumberClass:
 		t = block1 + block2
 
 		block3 = self.genLastBlock(t, puzzle)
-		finishedPuzzle = block1 + block2 + block3 
+		finishedPuzzle = t + block3 
 
 
 		return finishedPuzzle
@@ -52,9 +68,10 @@ class NumberClass:
 		arr2 = arr[startInd+9:startInd+18]
 		arr3 = arr[startInd+18:startInd+27]
 
+
 		while self.checkRows(arr1, arr2) == False:
-			arr2 = self.genRows(puzzle[9:18])
 			arr1 = self.genRows(puzzle[0:9])
+			arr2 = self.genRows(puzzle[9:18])
 
 		arr3 = self.genThirdRow(arr1, arr2, arr3)
 
@@ -158,15 +175,26 @@ class NumberClass:
 
 	def checkBlocks(self, arr1, arr2):
 		for i in range(0, 9):
-			if arr1[i] == arr2[i] or arr1[i] == arr2[i+9] or arr1[i] == arr2[i+18]:
+	
+			if (arr1[i] == arr2[i] or arr1[i] == arr2[i+9] or arr1[i] == arr2[i+18]):
 				return False
-			elif arr1[i+9] == arr2[i] or arr1[i+9] == arr2[i+9] or arr1[i+9] == arr2[i+18]:
+			if (arr1[i+9] == arr2[i] or arr1[i+9] == arr2[i+9] or arr1[i+9] == arr2[i+18]):
 				return False
-			elif arr1[i+18] == arr2[i] or arr1[i+18] == arr2[i+9] or arr1[i+18] == arr2[i+18]:
+			if (arr1[i+18] == arr2[i] or arr1[i+18] == arr2[i+9] or arr1[i+18] == arr2[i+18]):
 				return False
 
 
-			return True
+
+
+
+			# print(arr1[21]) 
+			# print(arr2[21])
+			# print(arr1)
+			# print(arr2)
+		return True
+
+
+
 
 
 
