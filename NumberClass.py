@@ -18,6 +18,50 @@ class NumberClass:
 
 
 
+	def genRowsFast(self, puzzle, arr=None):
+		arrCFormat = list(map(int, puzzle))
+		# print(len(arrCFormat))
+		# if arr != None:
+		# 	print(len(arr))
+		x = randint(1,9)
+		if arr != None:
+			for i in range(0, len(arr)):
+				j = i%9
+				count = 0
+				if arrCFormat[j] != 0:
+					continue
+				while x in self.genRowsHelpers(arr) or x in arrCFormat:
+					x = randint(1,9)
+					count += 1
+					if count > 100:
+						break
+				arrCFormat[i] = x
+
+		else:
+			for i in range(0, len(arrCFormat)):
+				if arrCFormat[i] != 0:
+					continue
+				else:
+					while x in arrCFormat:
+						x = randint(1,9)
+				arrCFormat[i] = x
+				
+		return arrCFormat
+
+
+
+
+	def genRowsHelpers(self,arr):
+		newArr = []
+		i = 0
+		while i < len(arr):
+			newArr.append(arr[i])
+			i += 9
+
+		return newArr
+			
+
+
 	def createSudokuPlane(self,arr, puzzle):
 		block1 = list(self.genBlock(arr, puzzle, 0))
 		block2 = list(self.genBlock(arr, puzzle, 27))
@@ -25,28 +69,24 @@ class NumberClass:
 		count = 0
 		totalCount = 0
 		while self.checkBlocks(block1, block2) == False:
-
-			block2 = self.genBlock(arr, puzzle, 27)
+			block1 = self.genBlock(arr, puzzle, 0)
+			block2 = self.genBlock(arr, puzzle, 27, block1)
 			count += 1
-			if count> 500:
-				block1 = self.genBlock(arr, puzzle, 0)
-				block2 = self.genBlock(arr, puzzle, 27)
-				count = 0
-				totalCount += 1
-				
 
-			if totalCount > 1000:
-				print("not solved")
-				break
+
+			if count > 1000:
+				totalCount += 1
+				print("hit")
+				count = 0
+
+
 			
 
+			if totalCount > 20:
+				print("not solved")
+				break
 
-
-
-
-
-		# arr = block1 + block2 + block2
-		# return arr 
+	
 		t = block1 + block2
 
 		block3 = self.genLastBlock(t, puzzle)
@@ -59,19 +99,22 @@ class NumberClass:
 
 
 
-
-
 	# takes rows and recreates them until they form a correct block. arr has rows. 
 	#puzzle is sudoku puzzle with zeros for blanks 
-	def genBlock(self, arr, puzzle, startInd):
+	def genBlock(self, arr, puzzle, startInd, block1 = None):
 		arr1 = arr[startInd:startInd+9]
 		arr2 = arr[startInd+9:startInd+18]
 		arr3 = arr[startInd+18:startInd+27]
 
 
 		while self.checkRows(arr1, arr2) == False:
-			arr1 = self.genRows(puzzle[0:9])
-			arr2 = self.genRows(puzzle[9:18])
+			if block1 == None:
+				arr1 = self.genRowsFast(puzzle[0:9])
+				arr2 = self.genRowsFast(puzzle[9:18], arr1)
+			else: 
+				arr1 = self.genRowsFast(puzzle[0:9], block1)
+				block1 = block1 + arr1 
+				arr2 = self.genRowsFast(puzzle[9:18], block1)
 
 		arr3 = self.genThirdRow(arr1, arr2, arr3)
 
@@ -101,7 +144,7 @@ class NumberClass:
 		return self.reformatVerticalArr(self.genForbiddenNums(completeArr, puzzle))
 
 
-	# misnomer generates last block  
+	# misnomer generates last block used in function above 
 	def genForbiddenNums(self, arr, puzzle):
 		x = [] 
 		for i in range(0, 9):
@@ -185,12 +228,6 @@ class NumberClass:
 
 
 
-
-
-			# print(arr1[21]) 
-			# print(arr2[21])
-			# print(arr1)
-			# print(arr2)
 		return True
 
 
