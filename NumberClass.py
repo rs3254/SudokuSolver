@@ -5,55 +5,59 @@ class NumberClass:
 	def genRows(self, arr):
 		arrCorrectFormat = list(map(int, arr))
 		for i in range(0, len(arrCorrectFormat)):
-			x = randint(1, 9)
 			if arrCorrectFormat[i] != 0:
 				continue
 			elif arrCorrectFormat[i] == 0:
+				x = randint(1, 9)
 				while x in arrCorrectFormat:
 					x = randint(1, 9)
 				arrCorrectFormat[i] = x
 			
-
 		return arrCorrectFormat
 
 
 
-	def genRowsFast(self, puzzle, arr=None):
-		arrCFormat = list(map(int, puzzle))
-		# print(len(arrCFormat))
-		# if arr != None:
-		# 	print(len(arr))
-		x = randint(1,9)
-		if arr != None:
-			for i in range(0, len(arr)):
-				j = i%9
-				count = 0
-				if arrCFormat[j] != 0:
-					continue
-				while x in self.genRowsHelpers(arr) or x in arrCFormat:
-					x = randint(1,9)
-					count += 1
-					if count > 100:
-						break
-				arrCFormat[i] = x
 
-		else:
-			for i in range(0, len(arrCFormat)):
-				if arrCFormat[i] != 0:
-					continue
+
+
+
+	def generateRows(self, arr, v1 = None):
+		arr = list(map(int, arr))
+		s = set()
+		for i in range(0, len(arr)):
+			if arr[i] != 0:
+				continue
+			else:
+				x = randint(1, 9)
+				if v1 != None:
+					while x in arr or x in self.genRowsHelpers(v1, i):
+						y = arr + self.genRowsHelpers(v1, i)
+						s  = set(y)
+						x = randint(1, 9)
+						if len(s) >=9:
+							break
+
+					if len(s)>= 9:
+						while x in arr:
+							x = randint(1, 9)
+						arr[i] =  x
+					else:
+						arr[i] = x
 				else:
-					while x in arrCFormat:
-						x = randint(1,9)
-				arrCFormat[i] = x
-				
-		return arrCFormat
+					while x in arr:
+						x = randint(1, 9)
+					arr[i] =  x
+
+		return arr 
 
 
 
 
-	def genRowsHelpers(self,arr):
+
+
+	def genRowsHelpers(self,arr, j):
 		newArr = []
-		i = 0
+		i = j
 		while i < len(arr):
 			newArr.append(arr[i])
 			i += 9
@@ -63,26 +67,26 @@ class NumberClass:
 
 
 	def createSudokuPlane(self,arr, puzzle):
-		block1 = list(self.genBlock(arr, puzzle, 0))
-		block2 = list(self.genBlock(arr, puzzle, 27))
+		block1 = list(self.genBlock(puzzle, 0))
+		block2 = list(self.genBlock(puzzle, 27))
 
 		count = 0
 		totalCount = 0
 		while self.checkBlocks(block1, block2) == False:
-			block1 = self.genBlock(arr, puzzle, 0)
-			block2 = self.genBlock(arr, puzzle, 27, block1)
+			block2 = self.genBlock(puzzle, 27, block1)
+
 			count += 1
 
 
 			if count > 1000:
+				block1 = self.genBlock(puzzle, 0)
 				totalCount += 1
-				print("hit")
 				count = 0
 
 
 			
 
-			if totalCount > 20:
+			if totalCount > 500:
 				print("not solved")
 				break
 
@@ -101,22 +105,21 @@ class NumberClass:
 
 	# takes rows and recreates them until they form a correct block. arr has rows. 
 	#puzzle is sudoku puzzle with zeros for blanks 
-	def genBlock(self, arr, puzzle, startInd, block1 = None):
-		arr1 = arr[startInd:startInd+9]
-		arr2 = arr[startInd+9:startInd+18]
-		arr3 = arr[startInd+18:startInd+27]
-
+	def genBlock(self, puzzle, startInd, block1 = None):
+		arr1 = self.genRows(puzzle[startInd:startInd+9])		
+		arr2 = self.generateRows(puzzle[startInd+9:startInd+18], arr1)
+	
 
 		while self.checkRows(arr1, arr2) == False:
 			if block1 == None:
-				arr1 = self.genRowsFast(puzzle[0:9])
-				arr2 = self.genRowsFast(puzzle[9:18], arr1)
+				arr1 = self.generateRows(puzzle[0:9])
+				arr2 = self.generateRows(puzzle[9:18], arr1)
 			else: 
-				arr1 = self.genRowsFast(puzzle[0:9], block1)
+				arr1 = self.generateRows(puzzle[startInd:startInd+9], block1)
 				block1 = block1 + arr1 
-				arr2 = self.genRowsFast(puzzle[9:18], block1)
+				arr2 = self.generateRows(puzzle[startInd+9:startInd+18], block1)
 
-		arr3 = self.genThirdRow(arr1, arr2, arr3)
+		arr3 = self.genThirdRow(arr1, arr2, puzzle)
 
 		mergedArr = arr1 + arr2  + arr3
 		return mergedArr
