@@ -3,17 +3,16 @@ from random import randint
 class NumberClass:
 	
 	def genRows(self, arr):
-		arrCorrectFormat = list(map(int, arr))
-		for i in range(0, len(arrCorrectFormat)):
-			if arrCorrectFormat[i] != 0:
+		for i in range(0, len(arr)):
+			if arr[i] != 0:
 				continue
-			elif arrCorrectFormat[i] == 0:
+			elif arr[i] == 0:
 				x = randint(1, 9)
-				while x in arrCorrectFormat:
+				while x in arr:
 					x = randint(1, 9)
-				arrCorrectFormat[i] = x
+				arr[i] = x
 			
-		return arrCorrectFormat
+		return arr
 
 
 
@@ -22,7 +21,6 @@ class NumberClass:
 
 
 	def generateRows(self, arr, v1 = None):
-		arr = list(map(int, arr))
 		s = set()
 		for i in range(0, len(arr)):
 			if arr[i] != 0:
@@ -158,10 +156,16 @@ class NumberClass:
 			x += self.genCustomRowHelper(list(fNums), puzzle)
 			
 		return x 
-	
+
+
+
+
+
 
 	def reformatVerticalArr(self, arr):
 		newArr = [] 
+
+
 		i = 0
 		while i < 27:
 			newArr.append(arr[i])
@@ -237,7 +241,7 @@ class NumberClass:
 
 
 
-
+		
 
 
 	def checkRows(self, row1, row2):
