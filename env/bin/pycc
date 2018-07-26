@@ -1,0 +1,3 @@
+#!/Users/raysabbineni/Desktop/Projects/SudokuSolver/env/bin/python
+from numba.pycc import main
+main()

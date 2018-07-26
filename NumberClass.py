@@ -1,7 +1,9 @@
 from random import randint
+from numba import jit
 
 class NumberClass:
 	
+	jit(nopython="True")
 	def genRows(self, arr):
 		for i in range(0, len(arr)):
 			if arr[i] != 0:
@@ -13,7 +15,6 @@ class NumberClass:
 				arr[i] = x
 			
 		return arr
-
 
 
 
@@ -47,7 +48,6 @@ class NumberClass:
 					arr[i] =  x
 
 		return arr 
-
 
 
 
@@ -161,7 +161,7 @@ class NumberClass:
 
 
 
-
+	jit(nopython="True")
 	def reformatVerticalArr(self, arr):
 		newArr = [] 
 
@@ -184,7 +184,6 @@ class NumberClass:
 		return newArr
 
 
-
 	def genThirdRow(self, arr1, arr2, puzzle):
 		forbiddenNums1 = arr1[0:3] + arr2[0:3]
 		forbiddenNums2 = arr1[3:6] + arr2[3:6]
@@ -194,7 +193,6 @@ class NumberClass:
 		thirdRow = self.genCustomRowHelper(forbiddenNums1, puzzle) + self.genCustomRowHelper(forbiddenNums2, puzzle) + self.genCustomRowHelper(forbiddenNums3, puzzle)
 
 		return thirdRow
-
 
 
 	def genCustomRowHelper(self, arr1, puzzle):
