@@ -3,7 +3,7 @@ from numba import jit
 
 class NumberClass:
 	
-	jit(nopython="True")
+	@jit
 	def genRows(self, arr):
 		for i in range(0, len(arr)):
 			if arr[i] != 0:
@@ -15,8 +15,6 @@ class NumberClass:
 				arr[i] = x
 			
 		return arr
-
-
 
 
 
@@ -52,19 +50,18 @@ class NumberClass:
 
 
 
-
+	# @jit(nopython="True")
 	def genRowsHelpers(self,arr, j):
-		newArr = []
-		i = j
-		while i < len(arr):
-			newArr.append(arr[i])
-			i += 9
+
+		newArr = [arr[z] for z in range(j,len(arr), 9)]
 
 		return newArr
-			
+
+	
 
 
 	def createSudokuPlane(self,arr, puzzle):
+
 		block1 = list(self.genBlock(puzzle, 0))
 		block2 = list(self.genBlock(puzzle, 27))
 
@@ -148,11 +145,9 @@ class NumberClass:
 	# misnomer generates last block used in function above 
 	def genForbiddenNums(self, arr, puzzle):
 		x = [] 
-		for i in range(0, 9):
-			fNums = [] 
-			for j in range(0, 6):
-				fNums.append(arr[i][j])
 
+		for i in range(0, 9):
+			fNums = [arr[i][j] for j in range(0, 6)]
 			x += self.genCustomRowHelper(list(fNums), puzzle)
 			
 		return x 
@@ -160,26 +155,11 @@ class NumberClass:
 
 
 
-
-	jit(nopython="True")
 	def reformatVerticalArr(self, arr):
-		newArr = [] 
-
-
-		i = 0
-		while i < 27:
-			newArr.append(arr[i])
-			i += 3
-
-		j = 1
-		while j < 27:
-			newArr.append(arr[j])
-			j += 3
-
-		z = 2
-		while z < 27:
-			newArr.append(arr[z])
-			z += 3
+		
+		newArr = [arr[i] for i in range(0, 27, 3)]
+		newArr += [arr[i] for i in range(1,27, 3)]
+		newArr += [arr[i] for i in range(2, 27, 3)]
 
 		return newArr
 
@@ -238,10 +218,8 @@ class NumberClass:
 
 
 
-
 		
-
-
+	@jit
 	def checkRows(self, row1, row2):
 		for i in range(0, 3):
 			for j in range(0, 3):
